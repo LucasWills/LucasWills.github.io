@@ -294,3 +294,12 @@ code {
     border-right-color: var(--border);
   }
 }
+
+
+
+
+
+.div-line {
+  height: 0px;
+  border-top: 1px solid var(--border);
+}
