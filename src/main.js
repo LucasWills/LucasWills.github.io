@@ -5,6 +5,9 @@ import heroImg from './assets/hero.png'
 
 import QCW1_RoofHit from './assets/QCW1_RoofHit.png'
 
+import HV_collage from './assets/HV_category_collage.png'
+
+
 
 document.querySelector('#app').innerHTML = /*html*/`
 
@@ -60,7 +63,11 @@ document.querySelector('#app').innerHTML = /*html*/`
 
       </ul>
     </div>  
-    <img src="${QCW1_RoofHit}" class="category-img"/>
+    <div>
+      <img src="${HV_collage}" class="category-img"/>
+      <p style="font-size: 12px">Clockwise from top left: plasma toroid, QCWDRSSTC, Fixed-frequency HFSSTC, DRSSTC 2</p>
+    </div>
+    
   </div>
 
 

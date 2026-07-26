@@ -303,7 +303,7 @@ code {
 
 .category {
   display: grid;
-  grid-template-columns: 70% 30%; 
+  grid-template-columns: 60% 40%; 
 
   padding: 10px;
   text-align: left;
@@ -322,6 +322,8 @@ code {
 
 .page-list {
   text-align: left;
+  padding: 10px;
+
 }
 
 .page-list-category {
