@@ -8,11 +8,78 @@
     <title>QCW1</title>
   </head>
   <body>
+    <section id="app">
 
-    <h1>QCW1</h1>
-    <!-- <div id="app"></div>' -->
-    <a href="/">back</a>
+      <h1 style="text-align: center;"><b>QCW1</b></h1>
+      <!-- <div id="app"></div>' -->
+      <h1 style="text-align: center;">Quasi-Continuous Wave Dual-Resonant Solid State Tesla Coil</h1>
+      <h2 style="text-align: center;">2023-2024</h2>
+
+      <!-- body -->
+      <div style="text-align: left; padding: 10px">
+
+        <div class="div-line"></div>
+
+        <h2>Background</h2>
+
+        <p>
+          The QCW - short for &quot;<b>Q</b>uasi-<b>C</b>ontinuous <b>W</b>ave dual-resonant solid state tesla coil&quot; - is a type of 
+          dual-resonant solid state tesla coil (DRSSTC) which operates for much longer on-times than a typical DRSSTC, typically
+          7-20ms as opposed to &lt;300&#x00B5;s. The term &apos;quasi-continuous&apos; is, I believe, borrowed from laser terminology. 
+          Many fascinating and beautiful plasma effects can be achieved by a QCW, but one of the most well-known and stunning effects 
+          is achieved by slowly ramping the power output of the coil up from a low power to a high power in a few milliseconds. The 
+          result of this is incredibly straight, &apos;sword-like&apos; arcs, which can end up more than ten times the length of the 
+          actual coil if tuned properly.
+        </p>
+
+        <p>
+          This brings up a few unique design challenges, in addition to the existing difficulty in designing an ordinary DRSSTC. First, is the
+          question of how to build a DRSSTC so it can run continuously for several milliseconds without blowing up. In a standard DRSSTC of the
+          size we will be building, the resonant frequency will be on the order of a few hundred kilohertz, and the primary peak currents can be
+          greater than 300A. This is fine when running TO-247 IGBTs with 200&#x00B5;s pulses, but there are no semiconductors currently available for an affordable
+          price which can handle these currents at these frequencies for more than a millisecond. To get around this problem, we will have to build
+          the primary circuit to a much higher impedance than is typical. Of course, in an ideal resonant circuit the impedance is always zero, but in the case 
+          of a tesla coil the primary circuit is damped by its coupling to the much more lossy secondary coil, as well as to the formation of plasma. This is what normally
+          limits the peak current in the primary circuit, other than the on time. To keep primary current below ~150A, we will use a relatively high impedance primary 
+          coil and resonant capacitor bank, something greater than 40&#x03A9;. Additionally, higher coupling between primary and secondary coil than is typical for 
+          a DRSSTC will be beneficial for this, allowing faster energy transfer from primary to secondary circuit. This causes an additional issue in raising
+          coupling while avoiding arcing between the primary and secondary coils. Some people have attempted to raise coupling in QCW coils using a large ferrite
+          core inside the secondary (see <a href="https://highvoltageforum.net/index.php?topic=1268">this coil by Dave Knierem</a> and <a href="https://highvoltageforum.net/index.php?topic=1073">this coil by jmartis2</a>)
+          , but this presents problems with insulation to prevent internal arcing, not to mention the high cost of large ferrites. Instead, we will simply get the 
+          primary as close as possible to the secondary while maintaining enough distance to prevent arcing. By using FEMM to optimize the primary geometry, we
+          can still get a coupling coefficient greater than 0.4 while maintaining good distance.
+
+        </p>
+        <p>
+          The second design problem I want to talk about is, how do we actually achieve a smooth ramp up in power over a few milliseconds in a device that's 
+          pulling potentially over ten kilowatts from the bus capacitors? There are a few approaches people have taken to achieve this, but two in particular 
+          have been shown to be effective. These are 1: powering the tesla coil's inverter through a fast-responding buck converter capable of rapidly modulating
+          its output voltage, and 2: using a modulated phase-shift in one leg of the full-bridge inverter to essentially add dead time to the inverter according
+          to an input signal.
+        </p>
+        <p>
+          The phase-shift full-bridge (PSFB) seems attractive at first, because it doesn't require any additional power electronics to be implemented. However, 
+          it has the downside that it's guarenteed that at least half of the semiconductors will not be switching at zero current, resulting in much greater 
+          switching losses and therefore requiring more powerful and/or faster semiconductors. Additionally, to evenly spread this load across the full bridge 
+          requires the phase shift to alternate legs, which significantly complicates driver circuitry. While this could still be implimented using individual 
+          logic gates, it would likely be more practical to switch to an FPGA to impliment this.
+        </p>
+        <p>
+          The buck converter route on the other hand, requires more power electronics but is significantly easier to control, while additionally having the 
+          advantage that the inverter can be tuned as close as possible to perfect zero current and zero voltage switching. This massively reduces switching losses 
+          at the frequencies we are working at, allowing our individual TO-247 IGBTs to be ran somewhat above their rated continuous current without significant heating.
+        </p>
+        
+        
 
 
+
+        <div class="footer">Updated 8/1/2026.
+          <a href="/">back to homepage</a>
+        </div>
+
+      </div>
+
+    </section>
   </body>
 </html>
