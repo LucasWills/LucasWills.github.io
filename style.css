@@ -343,3 +343,36 @@ code {
 .footer {
   text-align: center;
 }
+
+.page-image {
+  
+  height: 400px;
+  width: auto;
+  margin: 20px 20px;
+  border: 1px solid var(--border);
+}
+
+.centered-image {
+  display: block;
+  height: 450px;
+  width: auto;
+  margin-left: auto;
+  margin-right: auto;
+  border: 2px solid var(--border);
+}
+
+
+.image-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    padding: 20px;
+}
+
+.image-row img {
+    height: 300px;
+    width: auto;
+    object-fit: cover;
+    border: 2px solid var(--border);
+}

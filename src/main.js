@@ -78,12 +78,13 @@ document.querySelector('#app').innerHTML = /*html*/`
       <h2><b>Misc. Electronics</b></h2>
 
       <ul class="page-list">
-        <b class="page-list-category">Switched-Mode Power Supplies and Other Power Electronics</b>
+        <b class="page-list-category">Power Electronics and Related</b>
         <li><a href="/HV/QCW1/">Big SMPS</a> - [PAGE INCOMPLETE] Adjustable power supply giving 3-80V at up to 1.5kW</li>
+        <li><a href="/HV/QCW1/">1V Protected Boost Converter</a> - [PAGE INCOMPLETE] A small boost converter to efficiently power a 3.3V microcontroller from a single 1.2V NiMH cell</li>
 
 
         <b class="page-list-category">Radio Frequency Experiments</b>
-        <li><a href src="/">TODO</a> - TODO</li>
+        <li><a href src="/">13.56MHz ISM Generator</a> - Generates a strong 13.56MHz signal using a class E topology. Mostly just an experiment</li>
 
       </ul>
     </div>  
