@@ -9,11 +9,12 @@
   </head>
   <body>
     <section id="app">
-
-      <h1 style="text-align: center;"><b>QCW1</b></h1>
-      <!-- <div id="app"></div>' -->
-      <h1 style="text-align: center;">Quasi-Continuous Wave Dual-Resonant Solid State Tesla Coil</h1>
-      <h2 style="text-align: center;">2023-2024</h2>
+      <div style="background-image: url('driver_in_case.png'); background-size: 100%; background-position: center;">
+        <h1 style="text-align: center;"><b>QCW1</b></h1>
+        <!-- <div id="app"></div>' -->
+        <h1 style="text-align: center;">Quasi-Continuous Wave Dual-Resonant Solid State Tesla Coil</h1>
+        <h2 style="text-align: center;">2023-2024</h2>
+      </div>
 
       <!-- body -->
       <div style="text-align: left; padding: 10px">
@@ -103,15 +104,128 @@
         <div class="div-line"></div>
 
         <h2>Module 1: The Remote Control Circuit</h2>
+        
+        <p>
+          This was the first part of the design that I actually built. At the time that I built this project, I had very little experience with
+          microcontrollers so I chose to use <a href="https://highvoltageforum.net/index.php?topic=844">this</a> arduino based design that had
+          been publicly shared on highvoltageforum.net by Finn Hammer. The design generates 2 signals, one is sent to the interrupter input on
+          the driver, which enables and disables the driver. The other signal is a PWM signal used to create the analog signal to specify the
+          desired current voltage on the bus. In the images below, I'm testing it using a low-pass filter to convert the PWM signal into an analog
+          curve.
+        </p>
+
         <div class="image-row">
-          <img src="./Remote_1.jpg"/>
-          <img src="./Remote_2.jpg"/>
-          <img src="./Remote_3.jpg"/>
+          <img src="./remote_1.jpg"/>
+          <img src="./remote_2.jpg"/>
         </div>
 
+        <p>
+          And then, all we need is to put it together into a nice case! I soldered everything up with some connectors for easy maintenance,
+          and then, I didn't have access to a 3D printer at the time, so I went to the hardware store and found an electrical box 
+          thing that seemed like a good size. Then to finish it off, I cut out a plastic panel and borrowed a friend's label maker to label
+          everything.
+        </p>
+
+        <div class="image-row">
+          <img src="./remote_3.jpg"/>
+          <img src="./remote_box_1.jpg"/>
+          <img src="./remote_box_2.jpg"/>
+        </div>
+
+        <img src="./remote_box_3.jpg"; class="centered-image"/>
+
+        <section id="spacer"></section>
+        
+        <div class="div-line"></div>
+
+        <h2>Module 2: The Buck Converter</h2>
+
+        <p>
+          The buck converter needs to be able to take an input of 340V, from doubled mains voltage, and be able to drop that down to
+          the whole range from 0-340V, while being able carefully rise the output voltage acording to the PWM signal recieved from the arduino.
+          The precise voltage given by the converter is not critical, but rather that the voltage responds quickly and is decently stable.
+        </p>
+
+        <p>
+          If it was desired to rapidly and precicely lower the inverter power as well, for example to achieve audio modulation, then a
+          synchronous buck converter would be necessary, basically a very powerful class-D audio amplifier. However, we're only interested
+          in precisely ramping up the voltage, and the load is roughly constant so an asynchronous buck converter works just fine.
+        </p>
+
+        <p>
+          I chose to build the buck converter heavily based on a design by Gao Guangyan's design <a href="https://loneoceans.com/labs/qcw/">here</a>, 
+          which is in turn based on previous work by Steve Ward. It is a relatively simple closed-loop asynchronous buck converter driver based
+          on an ultrafast comparator with some hysteresis, comparing an input signal and the output of the buck converter. I wanted to also implement
+          overcurrent protection to the buck converter in case something goes wrong, so I added a latch taking input from a comparator that would compare
+          the output of some current measuring device to an adjustable reference voltage. If tripped, the input to the isolated gate driver is forced
+          low until the circuit is powered off or manually reset.
+        </p>
+
+        <p>
+          Of course, the buck converter needs to be able to handle hard-switching at current peaks above 100A, which means we need some pretty serious
+          silicon. I already chose FGH75T65SHD IGBTs for the inverter, so to make things a bit simpler I decided to use these for the buck converter
+          as well. These are rated for 150A continuous when cold, but since we're hard switching such a high current and some heating will definitely
+          occur, I chose to put 2 in parallel. For the freewheeling diode, I had recently gotten some large and fast SOT-227 diodes for cheap and figured this 
+          was a good opportunity to use one. They are DSEI2X31-10B, 2x 30A diodes. The diodes are carrying a lower average current and are not subject to
+          the same switching stress as the IGBTs, so the 60A continuous rating is fine. As with any switching converter, decoupling capacitors are crucial.
+          I used 2 1&#x00B5;F PP film capacitors, each placed as close as possible to one of the IGBTs.
+        </p>
 
 
-        <div class="footer">Updated 8/1/2026.
+
+        <img src="./buck_switch.png"; class="centered-image"/>
+
+        <section id="spacer"></section>
+
+        <p>
+          For the output LC filter on the buck converter, the inductor and capacitor need to both be able to handle the very high currents involved.
+          The capacitor is the easy part, I chose to use two large 1.1kV 10&#x00B5;F PP film capacitors, which will double as decoupling on the inverter board.
+          The inverter will also have 2 smaller 2.2&#x00B5;F snubber capacitors, bringing the total capacitance to about 24&#x00B5;F.
+        </p>
+
+        <p>
+          The inductor on the other hand, isn't so simple. Buying an appropriate inductor for this amount of current would be very pricey, so instead we make
+          it ourselves. The hard part is that it has to be able to handle &gt;100A without getting near saturation. Additionally, because the switching frequency
+          of our simple buck converter will be relatively low, potentially only 10kHz when operating at minimum power, we need a cutoff frequency significantly below
+          this. I chose to aim for 100&#x00B5;H, giving a cutoff frequency of 3.2kHz. Making an inductor with this inductance that can handle &gt;100A requires the use
+          of a very beefy core. Some people have had success using various shapes of ferrites, however the simplest approach is to use an iron powder ring. There are
+          many different iron powder materials, but they generally have a fairly low permeability and high saturation flux density, making them a good choice
+          for our inductor. I used a large toroid of the -2 material, which has been shown to be suitable for QCW buck converters by Gao Guangyan with very good
+          results. The inductor was formed by painstakingly winding around 65 turns of 12 AWG solid-core wire around the large iron powder ring. 
+        </p>
+
+
+        <div class="image-row">
+          <img src="./inductor_1.jpg"/>
+          <img src="./inductor_3.jpg"/>
+          <img src="./inductor_4.jpg"/>
+        </div>
+
+        <section id="spacer"></section>
+
+        <p>
+          Now for the driver, as previously mentioned I had added over current protection to the circuit. To actually sense the buck
+          converter current, I chose to use a large Hall effect sensor which I had gotten from the same person who got me those diodes.
+          The sensor, HAS 100-S, was fairly easy to implement but did need it's own positive and negative 15V rails. The final driver is shown
+          below.
+        </p>
+
+        <img src="./buck_driver_schem.png"; class="centered-image"/>
+
+        <section id="spacer"></section>
+
+
+        <p>
+          Then, all that's left for the buck converter was to put the driver together.
+        </p>
+
+
+
+
+
+        <h2>TO BE CONTINUED...</h2>
+
+        <div class="footer">Updated 8/15/2026.
           <a href="/">back to homepage</a>
         </div>
 
