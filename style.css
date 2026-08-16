@@ -350,7 +350,8 @@ code {
 
 .centered-image {
   display: block;
-  height: 450px;
+  max-height: 500px;
+  height: 40vw;
   width: auto;
   margin-left: auto;
   margin-right: auto;
@@ -364,10 +365,12 @@ code {
     align-items: center;
     gap: 15px;
     padding: 20px;
+    height: 20vw; 
+    max-height: 300px;
 }
 
 .image-row img {
-    height: 300px;
+    height: 100%;
     width: auto;
     object-fit: cover;
     border: 2px solid var(--border);
