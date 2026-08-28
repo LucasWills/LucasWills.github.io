@@ -41,7 +41,7 @@
           price which can handle these currents at these frequencies for more than a millisecond. To get around this problem, we will have to build
           the primary circuit to a much higher impedance than is typical. Of course, in an ideal resonant circuit the impedance is always zero, but in the case 
           of a tesla coil the primary circuit is damped by its coupling to the much more lossy secondary coil, as well as to the formation of plasma. This is what normally
-          limits the peak current in the primary circuit, other than the on time. To keep primary current below ~150A, we will use a relatively high impedance primary 
+          limits the peak current in the primary circuit, other than the on-time. To keep primary current below ~150A, we will use a relatively high impedance primary 
           coil and resonant capacitor bank, something greater than 40&#x03A9;. Additionally, higher coupling between primary and secondary coil than is typical for 
           a DRSSTC will be beneficial for this, allowing faster energy transfer from primary to secondary circuit. This causes an additional issue in raising
           coupling while avoiding arcing between the primary and secondary coils. Some people have attempted to raise coupling in QCW coils using a large ferrite
@@ -61,7 +61,7 @@
         <p>
           The phase-shift full-bridge (PSFB) seems attractive at first, because it doesn't require any additional power electronics to be implemented. However, 
           it has the downside that it's guarenteed that at least half of the semiconductors will not be switching at zero current, resulting in much greater 
-          switching losses and therefore requiring more powerful and/or faster semiconductors. Additionally, to evenly spread this load across the full bridge 
+          switching losses and therefore requiring more powerful and/or faster semiconductors. Additionally, to evenly spread this load across the full-bridge 
           requires the phase shift to alternate legs, which significantly complicates driver circuitry. While this could still be implimented using individual 
           logic gates, it would likely be more practical to switch to an FPGA to impliment this.
         </p>
@@ -93,7 +93,7 @@
           <li>Upper pole operation around 370kHz. Unloaded primary resonant frequency must be a bit higher than unloaded secondary to achieve this with the simple driver</li>
           <li>10-15 turn primary coil made from 12 AWG solid wire</li>
           <li>10nF 10kV primary capacitor bank, 10 series x 3 parallel B32642B0333J PP film pulse capacitors</li>
-          <li>Full bridge inverter using FGH75T65SHD IGBTs</li>
+          <li>Full-bridge inverter using FGH75T65SHD IGBTs</li>
           <li>Planned 150A maximum primary current</li>
           <li>Bus modulated design, using a large asynchronous buck converter with 2 parallel FGH75T65SHD IGBTs and a DSEI2X31-10B diode</li>
           <li>100&#x00B5;H buck inductor wound on large iron powder core, 24&#x00B5;F capacitance integrated into the inverter as decoupling capacitors</li>
@@ -224,6 +224,149 @@
         </p>
 
         <img src="./buck_driver_complete.png" class="centered-image"/>
+
+
+        <section id="spacer"></section>
+        
+        <div class="div-line"></div>
+
+        <h2>Module 3a: The Inverter</h2>
+
+        <p>
+          The inverter needs to supply our primary resonant tank circuit. Using a full-bridge inverter, the switches will need to handle 
+          switching &gt;150A at around 370kHz. We will be tuning the inverter for zero current turn-off and zero voltage turn-on of the switches,
+          or as close to that as possible. To minimize switching losses, we need to chose very fast IGBT switches and drive them with a very
+          strong gate drive signal. I chose the <a href="https://www.onsemi.com/pdf/datasheet/fgh75t65shd-d.pdf">FGH75T65SHD</a> IGBTs from 
+          Onsemi. These are rated for 150A and 650V, and have quite fast switching times. There is a rule of thumb that the total switching time 
+          should be less than 10% of the period. Adding up the turn on delay, rise time, turn off delay and fall time gives us 178.4ns of switching 
+          time, which means these IGBTs are usable up to around 560kHz. Of course this is just a rough rule of thumb, but we can see what we should 
+          be just fine at 370kHz. The rating of 150A might seem too low, however because we are switching soft, and will only be running for &lt;20ms up 
+          to 5 times a second, the 150A rating is more than sufficient. Of course, we will need to ensure that the IGBTs stay cool to avoid thermal 
+          runaway.
+        </p>
+
+        <p>
+          The most crucial part in designing the inverter is ensuring that there is a low inductance current path from the decoupling capacitors
+          to the IGBTs and back. Low inductance between the high and low side IGBTs of each leg is also important. If inductance in these areas
+          is not minimized, we will have huge voltage spikes at the switching nodes that can very easily destroy the IGBTs. Minimizing stray inductance
+          is best done using a laminated bus layout, where the positive and negative bus are planes on opposite sides of an insulating board, resulting
+          almost all inductance being cancelled out. A slightly less optimal but easier to construct layout is to have the positive and negative bus side 
+          by side on one side of the board, and the bridge outputs side by side the other way on the other side. This layout is showcased well in 
+          <a href="https://highvoltageforum.net/index.php?topic=1324">this</a> thread and has been found to work quite well. This layout, slightly 
+          modified to fit my huge decoupling/buck output capacitors, is what I used. It was constructed using blank circuit board stock and a dremel
+          cutter and a drill, cleaned up and soldered.
+        </p>
+        <p>
+          Notice that some of the holes have had the copper around them cleared out using a large countersink bit. These are the holes where smaller decoupling 
+          capacitors will attach to the positive and negative bus, however the top side of the board is the bridge output, so the large clearance is very important
+          to minimize the likelyhood of a very unpleasant 340V short circuit.
+        </p>
+
+        <div class="image-row">
+          <img src="./inverter_1.jpg"/>
+          <img src="./inverter_2.jpg"/>
+          <img src="./inverter_3.jpg"/>
+        </div>
+
+        <p>
+          Those huge black blocks are the previously mentioned 1.1kV 10&#x00B5;F PP film capacitors which serve a dual purpose as the output 
+          LC filter capacitor for the buck converter, as well as decoupling for the full-bridge inverter. For additional decoupling with slightly 
+          less impedance, smaller 2.2&#x00B5;F film capacitors were placed directly between the IGBTs. Maybe it's overkill but, spoilers, this project never
+          killed a single IGBT so I think I made the right choice.
+        </p>
+
+        <p>
+          Next thing to do was to add the control connections to the bridge. I picked a suitably sized high-permeability ferrite to use for the gate drive transformer.
+          Then, I disassembled some Cat 5 ethernet cable and wound all 8 cables into one big cable. the 4 white wires will be the primary, all in parallel, 
+          and the 4 colored wires will be the 4 secondary coils. Each IGBT gets its own secondary. We need to get the fastest possible rise and fall times on the 
+          gate drive signals to minimize switching losses in the inverter and counteract the miller effect. To do this we need to minimize leakage inductance in the 
+          gate drive transformer. All of the cables must be tightly wound together 
+          on the core and, once they leave the core, each separate coil must be tightly twisted with itself to form a twisted pair. Additionally, we should use the
+          minimum possible number of turns without saturating the core. Some testing showed me that the core preforms fine at our working frequency with 2 turns. I used 
+          3 turns to be safe, as saturation of the gate drive transformer would almost certainly kill the inverter.
+        </p>
+
+        <p>
+          Each IGBT gets its own gate resistor to dampen ringing caused by the small but still meaningful leakage inductance. By minimizing this inductance, a very low 
+          value can be chosen for the gate resistor which further reduces the rise time of the gate signal. It's difficult to see in the pictures, but the gate resistors 
+          are bypassed in the reverse direction by a fast diode. This will slightly increase ringing when turning off the IGBTs, but this isn't a big issue because the gate 
+          voltage will already be below -10V, the IGBTs will be driven off hard regardless of voltage ringing. Ringing when turning on is a bigger concern because of the possibility
+          of it causing gate voltage to drop low enough for the IGBT to desaturate. The purpose of the reverse diode is to speed up IGBT turn off, which is where switching losses 
+          are the biggest concern since we will never have absolutely perfect ZCS, and additionally, the reverse diode will inject a small amount of deadtime in which both IGBTs are 
+          off, preventing the possibility of shoot through. This is not strictly necessary, shoot through is already unlikely because of the gate drive transformer topology being 
+          used, unless the IGBTs are way too slow.
+        </p>
+
+        <p>
+          Low power testing of the inverter under load shows clean waveforms coming out of the bridge. Note the ferrite bead on the primary connection 
+          to the gate drive transformer. This is simply to help prevent noise from the inverter coupling back into the driver, at the cost of some leakage 
+          inductance.
+        </p>
+
+        <div class="image-row">
+          <img src="./gdt_1.jpg"/>
+          <img src="./inverter_out_test.jpg"/>
+        </div>
+
+        <img src="./inverter_5.png" class="centered-image"/>
+
+        <p>
+          This inverter would likely be sufficient as is, and worked fine for some early tests of the complete coil, however at the suggestion of 
+          <a href="https://highvoltageforum.net/index.php?topic=2621.msg19264#msg19264">Dave Knierem</a> on highvoltageforum.net, I decided to put 
+          some more effort into cooling the IGBTs as they were starting to get warm after runs. I cut up some 1/8&quot; copper busbar into 1&quot; 
+          square heat spreaders, put some ultra-high thermal conductivity insulating pads between them and the heatsink, and placed the IGBTs on top 
+          with some high performance thermal paste. Additionally, instead of using the screw hole in the IGBTs which is far from the actual silicon 
+          die, the IGBTs were held down with 3D-printed clamps I threw together in Onshape and had a friend print out of PETG (thanks Jess!). These clamps 
+          were designed to put pressure on the center of the IGBT die, giving a better thermal connection to the heat spreader.
+        </p>
+
+        <div class="image-row">
+          <img src="./heat_spreaders.jpg"/>
+          <img src="./inverter_6.jpg"/>
+          <img src="./inverter_7.jpg"/>
+        </div>
+
+        <section id="spacer"></section>
+        
+        <div class="div-line"></div>
+
+        <h2>Module 3b: The Inverter Driver</h2>
+        
+        <p>
+          The inverter driver, or just the driver, is probably the most important part of the whole device while simultaneously being 
+          the easiest to make. And that's because dozens of talented engineers online have already designed some excellent solid state 
+          tesla coil driver circuits, which the majority of solid state tesla coils built today are heavily based upon. I chose to use
+          the &quot;Universal Driver 2.9&quot;, or simply UD2.9, Designed by Steve Ward, Phillip Slawinski, Bart Anderson, Eric Goodchild, 
+          Gao Guangyan, and certainly some others I am unaware of. There is a more popular UD2.7 driver, however the UD2.9 was chosen 
+          because of its pulse skipping ability, where current regulation is achieved by dropping gate drive cycles, whereas the UD2.7 
+          simply cuts out until the next burst when the current limit is reached. Pulse skipping is desirable for QCW coils because the 
+          relatively long on-times mean that the driver cutting out when current limit is reached would significantly shorten the on-time,
+          giving inconsistent output.
+        </p>
+
+        <p>
+          All versions of the UD2.X function as a sort of injection-locked oscillator. An initial pulse is sent to the inverter which 
+          starts the primary resonant circuit ringing, this ringing is picked up by a current transformer on the primary coil. The current 
+          from the transformer is wired back to the driver, where it is shunted by an RL circuit, which causes a slight voltage phase lead. 
+          A variable inductor is used here, so the phase lead can be tuned to cancel out the driver's propagation delay, resulting in a perfect 
+          lock to the resonant frequency and close to zero-current switching. Zero-voltage switching can be achieved with further tuning. 
+          The driver picks up the modified feedback signal with an ultrafast comparator, some simple logic is used to create the inverting and 
+          non-inverting outputs and interrupt them as necessary, and then those signals are sent to a small gate driver chip which in turn powers
+          a small full-bridge formed by complementary mosfets. The output of the miniature full-bridge inverter is then sent to the gate drive
+          transformer where it will go on to drive the big IGBTs.
+        </p>
+
+        <p>
+          At the time this coil was built, I had no experience with SMD soldering, so I chose to go with a through-hole version of the UD2.9, 
+          which was laid out by Daniel Marks and is publicly available on highvoltageforum.net. Similar to the buck converter driver, 
+          the UD2.9 was packaged in a plastic box covered in aluminum tape to protect it from the extreme EMI from the coil.
+        </p>
+
+        <div class="image-row">
+          <img src="./ud29_1.jpg"/>
+          <img src="./ud29_2.jpg"/>
+          <img src="./ud29_3.jpg"/>
+        </div>
 
         <section id="spacer"></section>
 
