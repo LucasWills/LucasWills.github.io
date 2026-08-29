@@ -369,7 +369,24 @@ code {
     max-height: 300px;
 }
 
+.big-image-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    padding: 20px;
+    height: 45vw; 
+    max-height: 600px;
+}
+
 .image-row img {
+    height: 100%;
+    width: auto;
+    object-fit: cover;
+    border: 2px solid var(--border);
+}
+
+.big-image-row img {
     height: 100%;
     width: auto;
     object-fit: cover;
