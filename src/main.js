@@ -40,7 +40,7 @@ document.querySelector('#app').innerHTML = /*html*/`
       <ul class="page-list">
         <b class="page-list-category">Tesla Coils (Kilohertz range)</b>
         <li><a href="/HV/QCW1/">QCWDRSSTC</a> - Quasi-Continuous Wave solid state tesla coil, achieved 6 foot arcs!</li>
-        <li><a href="/HV/DRSSTC/">DRSSTC</a> - [PAGE INCOMPLETE] 2.5" diameter dual-resonant solid state tesla coil, acieved 2 foot arcs.</li>
+        <li><a href="/HV/DRSSTC/">DRSSTC 1</a> - 2.375" diameter dual-resonant solid state tesla coil, acieved 2 foot arcs.</li>
         <li><a href="/">Misc. SSTCs</a> - [PAGE INCOMPLETE] Other solid state tesla coil projects.</li>
 
         <b class="page-list-category">High-Frequency Solid State Tesla Coils (Megahertz range)</b>
@@ -65,7 +65,7 @@ document.querySelector('#app').innerHTML = /*html*/`
     </div>  
     <div>
       <img src="${HV_collage}" class="category-img"/>
-      <p style="font-size: 12px">Clockwise from top left: plasma toroid, QCWDRSSTC, Fixed-frequency HFSSTC, DRSSTC 2</p>
+      <p style="font-size: 12px">Clockwise from top left: plasma toroid, QCWDRSSTC, Fixed-frequency HFSSTC, DRSSTC 1</p>
     </div>
     
   </div>

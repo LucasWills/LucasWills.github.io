@@ -5,12 +5,12 @@
     <!-- <link rel="icon" type="image/svg+xml" href="/favicon.svg" /> -->
     <link rel="stylesheet" href="/style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>DRSSTC</title>
+    <title>DRSSTC 1</title>
   </head>
   <body>
     <section id="app">
       <div style="background-image: url('background_arcs.png'); background-size: 100%; background-position: center;">
-        <h1 style="text-align: center;"><b>DRSSTC</b></h1>
+        <h1 style="text-align: center;"><b>DRSSTC 1</b></h1>
         <!-- <div id="app"></div>' -->
         <h1 style="text-align: center;">Dual-Resonant Solid State Tesla Coil</h1>
         <h2 style="text-align: center;">2022-2023</h2>
@@ -196,6 +196,9 @@
             interference being picked up. I also moved the top of the enclosure further up to make the magnetic field from the primary 
             coil a bit weaker by the point it reaches the control circuitry.
         </p>
+        <p>
+            Oh, and I added an actual fast-blow fuse.
+        </p>
 
         <img src="./enclosure_3.jpg" class="centered-image"/>
 
@@ -229,15 +232,132 @@
             projects, of which this was the first one.
         </p>
 
+        <p>
+            After a short discussion I decided the following things. First, I would upgrade my half-bridge of 2 single FGA60N65SMD IGBTs 
+            to a half bridge of 2x 2 parallel FGH75T65SHD IGBTs. This was chosen over instead upgrading to a full bridge because it will 
+            keep the output voltage the same, meaning I wouldnt have to rebuild the primary circuit to a higher impedance. The second change 
+            would be to upgrade my gate drive circuitry to instead use a 1:1 gate drive transformer with a voltage of &gt;18V. A 1:1 gate 
+            drive transformer can be constructed with a lower leakage inductance, which will provide a faster rise and fall time for the 
+            gate drive signal, especially important since we will be driving twice the gate capacitance with two IGBTs in parallel. The only 
+            problem with this change is that my gate drive chips are, as mentioned before, only rated for 16V. I first tried to fix this by 
+            switching to higher voltage gate drivers, however the only suitable chips I could find for a reasonable price were tiny SMD chips 
+            which I had very little experience with at the time, and had some other problems when trying to implement them. Ultimately I 
+            decided to switch back to the originally intended complementary MOSFET gate drive stange, however this would require a significant 
+            change in the driver logic to work properly. My original driver had already been messed with quite a bit and I was starting to 
+            get tired of adding and removing things from it so I decided to start fresh with a tested and well known driver, that being 
+            Steve Ward's <a href="www.stevehv.4hv.org/new_driver.html">UD1.3B</a>. 
+        </p>
+        <p>
+            At this point I was going to by making a lot of changes, so I've decided to call this revision 2.
+        </p>
+
+        <section id="spacer"></section>
+
+        <div class="div-line"></div>
+
+        <h2>Revision 2</h2>
+
+        <p>
+            The UD1.3B is already pretty similar to the driver I had made previously, but it features an actually working MOSFET output 
+            stage. I also added undervoltage lockout and swapped the fiber reciever for one that I already had. Then I spent a day laying 
+            out the circuit to construct it on perfboard and created what is definitely the most complicated thing I've ever seen made 
+            on a single piece of perfboard. This took 2 days to solder and came out awesome but I can not emphasize enough that you should 
+            absolutely just order a PCB instead of doing this.  
+        </p>
+
+        <img src="./driver_schem_2_ud13b.png" class="centered-image"/>
+
+        <div class="image-row">
+          <img src="./ud13b_layout.png"/>
+          <img src="./ud13b_layout_2.png"/>
+        </div>
+        <div class="image-row">
+          <img src="./ud13b_board_1.jpg"/>
+          <img src="./ud13b_board_2.jpg"/>
+        </div>
+        <div class="image-row">
+          <img src="./ud13b_board_3.jpg"/>
+          <img src="./ud13b_board_4.jpg"/>
+        </div>
+
+        <p>
+            Then, I constructed the new double half-bridge bridge and supporting components after designing a nice low inductance layout.
+        </p>
+
+        <div class="image-row">
+          <img src="./double_half_bridge_schem.png"/>
+          <img src="./double_half_bridge_layout.png"/>
+        </div>
+
+        <p>
+            The circuit board was constructed using my favorite blank copper-clad board and dremel cutter method...
+        </p>
+
+        <div class="image-row">
+          <img src="./double_half_bridge_1.jpg"/>
+          <img src="./double_half_bridge_2.jpg"/>
+          <img src="./double_half_bridge_3.jpg"/>
+        </div>
+
+        <div class="image-row">
+          <img src="./double_half_bridge_4.jpg"/>
+          <img src="./double_half_bridge_5.jpg"/>
+          <img src="./double_half_bridge_6.jpg"/>
+        </div>
+
+        <p>
+            Then, the new 1:1 gate drive transformer for the double bridge. Each IGBT gets its own gate resistor for hopefully more 
+            evenly matched gate signals. I used 2 pretty big ferrite rings for the gate drive transformer, which in hindsight was 
+            extremely overkill. A new set of current transformers was also assembled, using a cascaded design which both has better 
+            electrical properties and is easier to construct.
+        </p>
+
+        <div class="image-row">
+          <img src="./gdt2_1.jpg"/>
+          <img src="./gdt2_2.jpg"/>
+        </div>
+
+        <div class="image-row">
+          <img src="./ct_1.jpg"/>
+          <img src="./ct_2.jpg"/>
+        </div>
+
+        <p>
+            Next, I tested the new driver and half bridge at low voltage using a piece of steel over the primary as a dummy load. 
+            Everything seemed to work well, so all that was left was to put everything together again! I added a better power supply
+            and a soft start relay and everything was ready to go.
+        </p>
+
+        <div class="image-row">
+          <img src="./final_enclosure_1.jpg"/>
+          <img src="./final_enclosure_2.jpg"/>
+          <img src="./final_enclosure_3.jpg"/>
+        </div>
+
+        <p>
+            And after cranking the overcurrent limit up to 350A and some final tuning, the final results are simply spectacular. The 
+            longest measured arc length was 22 inches.
+        </p>
+
+        <div class="image-row">
+          <img src="./arcs_still_1.png"/>
+          <img src="./arcs_still_2.png"/>
+          <img src="./arcs_still_4.png"/>
+        </div>
+        <div class="image-row">
+          <img src="./arcs_still_5.png"/>
+          <img src="./arcs_still_6.png"/>
+        </div>
+
+        <img src="./arcs_longexpo.png" class="centered-image"/>
+
 
 
         <section id="spacer"></section>
 
         <div class="div-line"></div>
 
-        <h2>TO BE CONTINUED</h2>
-
-        <div class="footer">Page updated 8/28/2026.
+        <div class="footer">Page updated 8/29/2026.
           <a href="/">Back to homepage</a>
         </div>
 
