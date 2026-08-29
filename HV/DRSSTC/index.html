@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- <link rel="icon" type="image/svg+xml" href="/favicon.svg" /> -->
+    <link rel="stylesheet" href="/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DRSSTC</title>
+  </head>
+  <body>
+    <section id="app">
+      <div style="background-image: url('background_arcs.png'); background-size: 100%; background-position: center;">
+        <h1 style="text-align: center;"><b>DRSSTC</b></h1>
+        <!-- <div id="app"></div>' -->
+        <h1 style="text-align: center;">Dual-Resonant Solid State Tesla Coil</h1>
+        <h2 style="text-align: center;">2022-2023</h2>
+      </div>
+
+      <!-- body -->
+      <div style="text-align: left; padding: 10px">
+
+        <div class="div-line"></div>
+
+        <h2>
+            <b>NOTE -</b> This is a very old project, and was not built very well as a result of my lack of experience at the time. 
+            Were I to do this today [2026], I would do a lot of things very differently. That being said, I learned a lot 
+            from this project and the results are still pretty impressive! If you are building a similar project, 
+            read this to learn from my faliures and successes!
+        </h2>
+
+        <section id="spacer"></section>
+        
+        <div class="div-line"></div>
+
+        <h2>Background</h2>
+
+        <p>
+            This was my first serious build of a dual-resonant solid state tesla coil, or DRSSTC for short. The traditional Tesla 
+            coil circuit used a high-voltage resonant primary coil circuit excited by a spark gap to, in turn, excite the secondary circuit 
+            which was tuned to the same resonant requency as the primary. With solid state tesla coils however, it's much easier to have 
+            the primary coil not be a resonant circuit at all, and just use an inverter to power it at the resonant frequency of the 
+            secondary coil. However, there are two problems with this approach. The first problem is that the primary current is heavily 
+            limited by the primary coil's inductance, which limits how much total power can be achieved. You could counteract this by using 
+            less turns on the primary coil, however this will result in poorer coupling to the secondary coil, and thus worse power transfer, 
+            and also when the number of turns gets very low it becomes difficult to fine-tune things. The second problem is that, when 
+            switching a purely inductive load like this simple primary coil, the current is at a maximum at the moment the switches turn 
+            off. This results in massive switching losses and voltage spikes at the switching node which stress the switching devices, and 
+            can ultimately destroy them.
+        </p>
+        <p>
+            This is where the DRSSTC comes in. By adding a series capacitor to the primary coil, and matching its capacitive reactance to 
+            the inductive reactance of the primary, we can completely cancel out the impedance of the primary, leaving just the negligible 
+            resistance. This allows the primary current to ring up very high, and thus transfer much more power to the secondary coil, 
+            resulting in huge arcs.
+        </p>
+
+        <section id="spacer"></section>
+        
+        <div class="div-line"></div>
+
+        <h2>Revision 1</h2>
+
+        <p>
+            Below is the schematic for the first version of the DRSSTC driver, which is essentially a standard basic SSTC driver with added 
+            overcurrent protection. It turns out, I made a mistake in this version and the complementary MOSFET output stage doesn't work 
+            properly. For this reason, the output stage was removed and replaced with 2 gate driver chips. The unfortunate consequence of 
+            this is that the gate driver chips were only rated for 16V, so I would need to use a 1:1.5 ratio gate drive transformer to get 
+            a safe voltage on the IGBT gates.
+        </p>
+
+        <img src="./driver_schem_1.png" class="centered-image"/>
+
+        <div class="image-row">
+          <img src="./driver_board_1.jpg"/>
+          <img src="./driver_board_2.jpg"/>
+        </div>
+
+        <p>
+            For the inverter, I built a half-bridge inverter with the popular FGA60N65SMD IGBTs. They are rated for 180A pulsed when cool, 
+            and have been shown to handle up to 300A when switching soft in DRSSTC settings where they are only running for &lt;300&mu;s. 
+            I used a simple laminated bus layout to minimize stray inductance, a voltage doubler to get a 340V bus, and some beefy TVS 
+            diodes to help protect from voltage spikes. Because it's a half bridge, we will get 170V on the bridge output.
+        </p>
+
+        <div class="image-row">
+          <img src="./single_half_bridge_1.jpg"/>
+          <img src="./single_half_bridge_2.jpg"/>
+        </div>
+
+        <div class="image-row">
+          <img src="./single_half_bridge_3.jpg"/>
+          <img src="./single_half_bridge_4.jpg"/>
+        </div>
+
+
+        <p>
+            The secondary coil was made from 2.375&quot; OD PVC pipe, with a 9.5&quot; winding of 36 AWG wire. It was then coated 
+            in several layers of polyurethane varnish and allowed to dry. A crude topload was constructed from cardboard, duct tape 
+            and aluminum tape, and the primary coil was wound out of 14 AWG THHN wire. For the primary resonant capacitor, 2 series 
+            940C20P15K PP film pulse capacitors were used, giving 75nF with a rating of 4kV. The secondary circuit resonant frequency 
+            was calculated to be approximately 270kHz.
+        </p>
+
+        <div class="image-row">
+          <img src="./topload_1.jpg"/>
+          <img src="./topload_2.jpg"/>
+          <img src="./topload_3.jpg"/>
+          <img src="./topload_4.jpg"/>
+        </div>
+
+        <div class="image-row">
+            <img src="./secondary_1.jpg"/>
+            <img src="./mmc_1.jpg"/>
+        </div>
+
+        <p>
+            A simple interrupter circuit using 555 timer chips was assembled into a steel electrical box for shielding, using coax
+            cable to connect to the driver. Then, some current transformers were wound on small ferrite rings, and the driver was 
+            ready to test!
+        </p>
+        
+        <img src="./driver_testing.jpg" class="centered-image"/>
+
+        <p>
+            Once everything was determined to be working properly, I put everything together and it was time for first light.
+        </p>
+
+        <div class="image-row">
+          <img src="./floor_setup.jpg"/>
+        </div>
+
+
+        <img src="./first_light.png" class="centered-image"/>
+
+        <p>
+            The first tests were promising, however I quickly ran into a problem, where the interrupter was sending out much 
+            longer pulses than it should, longer than one millisecond when its supposed to be &lt;300&mu;s! This created some 
+            seriously impressive arcs, but I knew it was only a matter of time before this killed something... But, I wasn't 
+            sure what was causing it so I kinda just assumed it was some weird result of running everything sloppily laid out 
+            on the floor.
+        </p>
+
+        <img src="./fat_arc.PNG" class="centered-image"/>
+
+        <p>
+            Nevertheless, I continued testing, slowly pushing power up with some pretty nice results...
+        </p>
+
+        <div class="image-row">
+          <img src="./testing_1_arcs_1.jpg"/>
+          <img src="./testing_1_arcs_2.jpg"/>
+        </div>
+
+        <p>
+            Figuring things were working pretty well, I started working on putting things together into an enclosure. I 
+            started with making a nicer, more tunable primary coil. I chose a flat pancake style primary coil because they 
+            give a better electric field shape for preventing arcing between the primary and secondary coil, while also being 
+            easier to tap for tuning. The primary coil was constructed using wood blocks, 14 AWG solid wire for the coil and a 
+            12 AWG single grounded winding around that to catch any arcs that jump from the topload down to the primary.
+        </p>
+
+        <img src="./primary.JPG" class="centered-image"/>
+
+        <div class="image-row">
+          <img src="./testing_2_arcs_1.jpg"/>
+          <img src="./testing_2_arcs_2.jpg"/>
+        </div>
+
+        <p>
+            The new primary worked quite well, so I moved on to putting all of the circuitry together more nicely. I assembled 
+            an EMI filter for the input, used a little switching power supply pulled out of something (I don't remember what) to
+            power the driver board, and put some shielding over the driver to protect it from the extreme EMI from the coils.
+        </p>
+
+        <div class="image-row">
+          <img src="./enclosure_1.jpg"/>
+          <img src="./enclosure_2.jpg"/>
+        </div>
+
+        <p>
+            Then, I screwed everything together and got ready for more testing. Remember that issue I mentioned with the interrupter 
+            sending pulses way too long? Well, that started happening again, and after a particularly long pulse, one of the IGBTs died, 
+            and took out the other IGBT, bridge rectifier and input filter along with it. I had forgotten to add a proper fuse...
+        </p>
+
+        <div class="image-row">
+          <img src="./faliure_1.png"/>
+          <img src="./faliure_2.png"/>
+        </div>
+
+        <p>
+            So that was a bit of a wake up call. I eventually determined the cause of the issue to be a faulty potentiometer in the 
+            interrupter, perhaps being made worse by interference getting picked 
+            up by the interrupter cable and messing with the 555 timer circuits. So I replaced the IGBTs, rectifier and input filter, 
+            and built a new interrupter and reciever for the driver using high quality potentiometers and fiber optic cable to prevent 
+            interference being picked up. I also moved the top of the enclosure further up to make the magnetic field from the primary 
+            coil a bit weaker by the point it reaches the control circuitry.
+        </p>
+
+        <img src="./enclosure_3.jpg" class="centered-image"/>
+
+        <div class="image-row">
+          <img src="./interrupter_1.jpg"/>
+          <img src="./interrupter_2.jpg"/>
+          <img src="./interrupter_3.jpg"/>
+        </div>
+
+        <div class="image-row">
+          <img src="./interrupter_4.jpg"/>
+          <img src="./interrupter_5.jpg"/>
+        </div>
+
+        <p>
+            All of these changes seemed to completely fix the issues, and the next tests worked went very well. At this point 
+            I was getting arcs up to 18 inches long with overcurrent cutoff set to 290A.
+        </p>
+
+        <div class="image-row">
+          <img src="./testing_3_arcs_2.PNG"/>
+          <img src="./testing_3_arcs_1.jpg"/>
+        </div>
+
+
+
+        <section id="spacer"></section>
+
+        <div class="div-line"></div>
+
+        <div class="footer">Page updated 8/28/2026.
+          <a href="/">Back to homepage</a>
+        </div>
+
+      </div>
+
+    </section>
+  </body>
+</html>
