@@ -155,7 +155,7 @@ document.querySelector('#app').innerHTML = /*html*/`
 
   <div class="category">
     <div>
-      <h2><b>Programming</b></h2>
+      <h2><b>Other Fun Stuff</b></h2>
 
       <ul class="page-list">
         <b class="page-list-category">Computer Engineering and Digital Logic</b>
