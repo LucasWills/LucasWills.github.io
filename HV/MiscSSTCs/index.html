@@ -38,8 +38,9 @@
         <ul>
             <li>[2022] <a href="#24vmini">24V Push-Pull SSTC</a></li>
             <li>[2022] <a href="#rsstc">Ramped Half-Bridge SSTC</a></li>
-            <li>[2023] <a href="#PPCE2MHz">Tiny Driverless Push-Pull Class E SSTC</a></li>
-            <li>[2023] <a >tbc...</a></li>
+            <li>[2023] <a href="#PPCE2MHz">Tiny Driverless Push-Pull Class-E SSTC</a></li>
+            <li>[2023] <a href="#CE4MHz">4MHz Fixed Frequency Class-E SSTC</a></li>
+            <li>[2023] <a >tbc..</a></li>
         </ul>
 
         <section id="spacer"></section>
@@ -331,6 +332,60 @@
                 <img src="./PPCE2MHz_arcs_4.png"/>
                 <img src="./PPCE2MHz_arcs_5.png"/>
             </div>
+
+        </div>
+
+        <section id="spacer"></section>
+        <div class="div-line"></div>
+
+        
+        <div id="CE4MHz">
+            <h2>4MHz Fixed Frequency Class-E SSTC</h2>
+
+            <p>
+                The Class-E switching topology is very promising for very small Tesla coils as mentioned previously. However, class-E is a 
+                very fragile thing, requiring precise tuning to function efficiently, and this makes it difficult to properly tune in a 
+                self-oscillating circuit which has a variable frequency. Therefore, a fixed frequency design could achieve a high frequency 
+                more easily. I used a 4MHz crystal oscillator module to produce a stable 4MHz signal, which was then fed into a small gate 
+                driver. The gate driver chip is not able to provide the necessary power to drive a larger MOSFET at 4MHz, so instead it's 
+                used to drive a TO-220 MOSFET for a smaller class-E preamplifier, who's output will then drive a TO-247 MOSFET which switches 
+                the bigger class-E circuit supplying the primary coil.
+            </p>
+
+            <p>
+                The driver board contains an on board interrupterer (which was never actually used...), and all the driving circuitry up to 
+                and including the class-E preamplifier.
+            </p>
+
+            <img src="./CE4MHz_schem.png" class="centered-image"/>
+            <img src="./CE4MHz_schem_paper.png" class="centered-image"/>
+
+            <p>
+                The output of the preamplifier is coupled to the larger MOSFET gate through an RF transformer and impedance matching network.
+            </p>
+
+            <img src="./CE4MHz_board.jpg" class="centered-image"/>
+
+
+            <div class="image-row">
+                <img src="./CE4MHz_final_1.jpg"/>
+                <img src="./CE4MHz_final_2.jpg"/>
+            </div>
+
+            <div class="image-row">
+                <img src="./CE4MHz_arcs_1.png"/>
+                <img src="./CE4MHz_arcs_6.png"/>
+                <img src="./CE4MHz_arcs_7.png"/>
+                <img src="./CE4MHz_arcs_8.png"/>
+            </div>
+
+            <div class="image-row">
+                <img src="./CE4MHz_arcs_2.png"/>
+                <img src="./CE4MHz_arcs_3.png"/>
+                <img src="./CE4MHz_arcs_4.png"/>
+                <img src="./CE4MHz_arcs_5.png"/>
+            </div>
+
 
         </div>
 

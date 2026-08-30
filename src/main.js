@@ -43,7 +43,7 @@ document.querySelector('#app').innerHTML = /*html*/`
         <li><a href="/HV/DRSSTC/">DRSSTC 1</a> - 2.375" diameter dual-resonant solid state tesla coil, acieved 2 foot arcs.</li>
         <li><a href="/HV/MiscSSTCs/">Misc. SSTCs</a> - [PAGE WIP] Other solid state tesla coil projects.</li>
 
-        <b class="page-list-category">High-Frequency Solid State Tesla Coils (Megahertz range)</b>
+        <b class="page-list-category">High-Frequency Solid State Tesla Coils (&gt;5 Megahertz)</b>
         <li><a href src="/">Self-Oscillating HFSSTCs</a> - [PAGE INCOMPLETE] HFSSTCs with the classic "driverless" setup.</li>
         <li><a href src="/">Fixed Frequency HFSSTCs</a> - [PAGE INCOMPLETE] HFSSTCs tuned for fixed frequency drivers.</li>
         <li><a href src="/">Interrupted PLL Driven HFSSTC</a> - [PAGE INCOMPLETE] A very unique PLL driven coil giving short, curly arcs!</li>
@@ -180,6 +180,6 @@ document.querySelector('#app').innerHTML = /*html*/`
 
 <div class="div-line"></div>
 
-<div class="footer">Updated 8/15/2026</div>
+<div class="footer">Updated 8/30/2026</div>
 
 `
