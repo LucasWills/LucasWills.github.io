@@ -38,250 +38,310 @@
         <ul>
             <li>[2022] <a href="#24vmini">24V Push-Pull SSTC</a></li>
             <li>[2022] <a href="#rsstc">Ramped Half-Bridge SSTC</a></li>
+            <li>[2023] <a href="#PPCE2MHz">Tiny Driverless Push-Pull Class E SSTC</a></li>
+            <li>[2023] <a >tbc...</a></li>
         </ul>
 
         <section id="spacer"></section>
-
         <div class="div-line"></div>
 
-        <h2 id="24vmini">[2022] 24V Push-Pull SSTC</h2>
+        <div id="24vmini">
 
-        <p>
-            I had built several messy SSTC projects before this, but this was the first one where I had the right parts and stuff 
-            to make it work decently well. It is, for the most part, a clone of the 
-            <a href="https://skori.hu/tesla/mini_tesla2.html">Skori Mini SSTC</a>.
-        </p>
+            <h2>[2022] 24V Push-Pull SSTC</h2>
 
-        <p>
-            The inverter is a push-pull split primary design, using two low-voltage high-current MOSFETs.
-        </p>
+            <p>
+                I had built several messy SSTC projects before this, but this was the first one where I had the right parts and stuff 
+                to make it work decently well. It is, for the most part, a clone of the 
+                <a href="https://skori.hu/tesla/mini_tesla2.html">Skori Mini SSTC</a>.
+            </p>
 
-        <img src="./24vmini_schem.png" class="centered-image"/>
+            <p>
+                The inverter is a push-pull split primary design, using two low-voltage high-current MOSFETs.
+            </p>
 
-        <p>
-            The inverter was constructed on a heatsink from some computer part... I was, of course, rather sloppy at this 
-            at the time...
-        </p>
+            <img src="./24vmini_schem.png" class="centered-image"/>
 
-        <img src="./24vmini_inv.jpg" class="centered-image"/>
+            <p>
+                The inverter was constructed on a heatsink from some computer part... I was, of course, rather sloppy at this 
+                at the time...
+            </p>
 
-        <p>
-            Initial testing with an old secondary I made early in highschool proved promising.
-        </p>
+            <img src="./24vmini_inv.jpg" class="centered-image"/>
 
-        <div class="image-row">
-          <img src="./24vmini_floor_setup.jpg"/>
-          <img src="./24vmini_floor_setup_arcs_1.jpg"/>
-        </div>
+            <p>
+                Initial testing with an old secondary I made early in highschool proved promising.
+            </p>
 
-        <p>
-            Then, I made a better secondary coil using 3.5&quot; OD PVC pipe and 36 AWG wire.
-        </p>
+            <div class="image-row">
+            <img src="./24vmini_floor_setup.jpg"/>
+            <img src="./24vmini_floor_setup_arcs_1.jpg"/>
+            </div>
 
-        <div class="image-row">
-          <img src="./24vmini_sec_1.jpg"/>
-          <img src="./24vmini_sec_2.jpg"/>
-          <img src="./24vmini_sec_3.jpg"/>
-        </div>
+            <p>
+                Then, I made a better secondary coil using 3.5&quot; OD PVC pipe and 36 AWG wire.
+            </p>
 
-        <p>
-            Then, I put things in an enclosure.
-        </p>
+            <div class="image-row">
+            <img src="./24vmini_sec_1.jpg"/>
+            <img src="./24vmini_sec_2.jpg"/>
+            <img src="./24vmini_sec_3.jpg"/>
+            </div>
 
-        <div class="image-row">
-          <img src="./24vmini_floor_driver.jpg"/>
-          <img src="./24vmini_enclosure_driver.jpg"/>
-          <img src="./24vmini_enclosure.png"/>
-        </div>
-        
-        <p>
-            Results were pretty nice, with some 3-5&quot; arcs.
-        </p>
+            <p>
+                Then, I put things in an enclosure.
+            </p>
 
-        <div class="image-row">
-          <img src="./24vmini_enclosure_test_1.jpg"/>
-          <img src="./24vmini_enclosure_test_2.jpg"/>
-          <img src="./24vmini_enclosure_test_3.jpg"/>
-          <img src="./24vmini_enclosure_test_4.jpg"/>
-        </div>
-
-        <p>
-            A lightbulb on top produces interesting results!
-        </p>
-
-        <div class="image-row">
-          <img src="./24vmini_lightbulb.png"/>
-        </div>
-
-        <p>
-            Next, I modeled a 6 inch toroid as a topload, and had a friend 3D-print it. After covering it in aluminum tape, 
-            it makes a very nice topload!
-        </p>
-        
-        <div class="image-row">
-          <img src="./24vmini_topload_1.jpg"/>
-          <img src="./24vmini_topload_2.jpg"/>
-          <img src="./24vmini_topload_3.jpg"/>
-        </div>
-
-        <p>
-            And that's about it! It's a pretty simple device, but the results were pretty good for me at the time, reaching 6&quot; 
-            arcs!
-        </p>
-
-        <div class="image-row">
-          <img src="./24vmini_final_arcs_1.jpg"/>
-          <img src="./24vmini_final_arcs_2.jpg"/>
-          <img src="./24vmini_final_arcs_3.png"/>
-          <img src="./24vmini_final_arcs_4.png"/>
-          <img src="./24vmini_final_arcs_5.png"/>
-        </div>
-
-        <section id="spacer"></section>
-
-        <div class="div-line"></div>
-
-        <h2 id="rsstc">[2022] Ramped Half-Bridge SSTC</h2>
-
-        <p>
-            It is known that tesla coil sparks form different shapes if the power level is rapidly changed. If the power level starts 
-            low and is rapidly increased over a few milliseconds, the arcs produced are much longer and straighter than they would normally 
-            be. This is best achieved by precicely modulating the Tesla coil power, however a much easier way to achieve a lesser form of this 
-            effect us by running the coil off of un-smoothed rectified mains, and only running during the increasing half of the cycle. This 
-            method of running the coil is typically called &quot;staccato&quot;.
-        </p>
-
-        <p>
-            This is achieved by using a circuit to detect the zero voltage crossing on mains, then trigger a 555 timer circuit to turn 
-            on for a short, adjustable period of time. The staccato interrupter design was taken from a similar coil by Gao Guangyan, 
-            which can be found <a href="https://loneoceans.com/labs/sstc3/">here</a>. The coil design was additionally inspired by 
-            a coil by LabCoatz. The Tesla coil driver used is just a standard half-bridge or full-bridge SSTC driver, which has been used 
-            by countless people at this point. 
+            <div class="image-row">
+            <img src="./24vmini_floor_driver.jpg"/>
+            <img src="./24vmini_enclosure_driver.jpg"/>
+            <img src="./24vmini_enclosure.png"/>
+            </div>
             
-        </p>
+            <p>
+                Results were pretty nice, with some 3-5&quot; arcs.
+            </p>
 
-        <p>
-            Here is the driver circuit.
-        </p>
+            <div class="image-row">
+            <img src="./24vmini_enclosure_test_1.jpg"/>
+            <img src="./24vmini_enclosure_test_2.jpg"/>
+            <img src="./24vmini_enclosure_test_3.jpg"/>
+            <img src="./24vmini_enclosure_test_4.jpg"/>
+            </div>
 
-        <img src="./rsstc_driver_schem.png" class="centered-image"/>
+            <p>
+                A lightbulb on top produces interesting results!
+            </p>
 
-        <p>
-            And here is the interrupter, taken from Gao Guangyan's SSTC 3 as mentioned.
-        </p>
+            <div class="image-row">
+            <img src="./24vmini_lightbulb.png"/>
+            </div>
 
-        <img src="./rsstc_interrupt_schem.png" class="centered-image"/>
+            <p>
+                Next, I modeled a 6 inch toroid as a topload, and had a friend 3D-print it. After covering it in aluminum tape, 
+                it makes a very nice topload!
+            </p>
+            
+            <div class="image-row">
+            <img src="./24vmini_topload_1.jpg"/>
+            <img src="./24vmini_topload_2.jpg"/>
+            <img src="./24vmini_topload_3.jpg"/>
+            </div>
 
-        <p>
-            The secondary coil was made from 3.5&quot; OD PVC pipe, a 4.5&quot; winding of 36 AWG wire.
-        </p>
+            <p>
+                And that's about it! It's a pretty simple device, but the results were pretty good for me at the time, reaching 6&quot; 
+                arcs!
+            </p>
 
-        <div class="image-row">
-          <img src="./rsstc_secondary_1.jpg"/>
-          <img src="./rsstc_secondary_2.jpg"/>
-        </div>
-
-        <p>
-            The driver and interrupter were assembled on perfboard, then the half-bridge on blank copper-clad board, and 
-            the bridge was powered for testing using a 60V transformer. After tuning the primary coil a bit, the low power results 
-            looked very nice.
-        </p>
-
-        <div class="image-row">
-          <img src="./rsstc_floor_setup.jpg"/>
-          <img src="./rsstc_floor_test_1_arc_2.png"/>
-          <img src="./rsstc_floor_test_1_arc_1.png"/>
-        </div>
-
-        <p>
-            Next, I made a new topload from... Some random garbage. It came out surprisingly alright.
-        </p>
-
-        <div class="image-row">
-          <img src="./rsstc_topload_1.jpg"/>
-          <img src="./rsstc_topload_2.jpg"/>
-          <img src="./rsstc_new_topload.png"/>
-        </div>
-
-        <p>
-            Then, since the low power testing seemed to show everything working fine, I pushed it up to full power. And immediately,
-            got some 12 inch sword sparks!
-        </p>
-
-        <div class="image-row">
-          <img src="./rsstc_new_topload_arc_1.png"/>
-          <img src="./rsstc_new_topload_arc_2.jpg"/>
-        </div>
-
-        <p>
-            After some tuning and cleaning things up a bit...
-        </p>
-
-        <div class="image-row">
-          <img src="./rsstc_new_topload_arc_3.jpg"/>
-          <img src="./rsstc_new_topload_arc_4.jpg"/>
-          <img src="./rsstc_new_topload_arc_5.jpg"/>
-          <img src="./rsstc_new_topload_arc_6.jpg"/>
-        </div>
-
-        <div class="image-row">
-          <img src="./rsstc_new_topload_arc_7.jpg"/>
-          <img src="./rsstc_new_topload_arc_8.jpg"/>
-        </div>
-
-        <p>
-            At this point I put together a new, more tunable and thicker primary coil, also with somewhat better dimentions. After 
-            finding the right tuning on the new primary coil, here's the results.
-        </p>
-
-        <div class="image-row">
-          <img src="./rsstc_final_1.jpg"/>
-          <img src="./rsstc_final_2.jpg"/>
-        </div>
-
-        <div class="image-row">
-          <img src="./rsstc_final_3.jpg"/>
-          <img src="./rsstc_final_4.jpg"/>
-          <img src="./rsstc_final_5.jpg"/>
-          <img src="./rsstc_final_6.jpg"/>
-        </div>
-
-        <div class="image-row">
-          <img src="./rsstc_final_7.png"/>
-          <img src="./rsstc_final_8.png"/>
-        </div>
-
-        <p>
-            I also did some experiments with running it on a slightly smoothed rectified mains, instead of in pure staccato mode. 
-            I think the results were pretty cool.
-        </p>
-
-        <div class="image-row">
-          <img src="./rsstc_smoothing_1.jpg"/>
-          <img src="./rsstc_smoothing_2.jpg"/>
-          <img src="./rsstc_smoothing_3.jpg"/>
-          <img src="./rsstc_smoothing_4.jpg"/>
-          <img src="./rsstc_smoothing_5.jpg"/>
-        </div>
-
-        <div class="image-row">
-          <img src="./rsstc_smoothing_8.jpg"/>
-          <img src="./rsstc_smoothing_7.PNG"/>
-        </div>
-
-        <div class="image-row">
-          <img src="./rsstc_smoothing_9.jpg"/>
-          <img src="./rsstc_smoothing_10.jpg"/>
-          <img src="./rsstc_smoothing_11.jpg"/>
+            <div class="image-row">
+            <img src="./24vmini_final_arcs_1.jpg"/>
+            <img src="./24vmini_final_arcs_2.jpg"/>
+            <img src="./24vmini_final_arcs_3.png"/>
+            <img src="./24vmini_final_arcs_4.png"/>
+            <img src="./24vmini_final_arcs_5.png"/>
+            </div>
         </div>
 
         <section id="spacer"></section>
-
         <div class="div-line"></div>
+
+        <div id="rsstc">
+
+            <h2>[2022] Ramped Half-Bridge SSTC</h2>
+
+            <p>
+                It is known that tesla coil sparks form different shapes if the power level is rapidly changed. If the power level starts 
+                low and is rapidly increased over a few milliseconds, the arcs produced are much longer and straighter than they would normally 
+                be. This is best achieved by precicely modulating the Tesla coil power, however a much easier way to achieve a lesser form of this 
+                effect us by running the coil off of un-smoothed rectified mains, and only running during the increasing half of the cycle. This 
+                method of running the coil is typically called &quot;staccato&quot;.
+            </p>
+
+            <p>
+                This is achieved by using a circuit to detect the zero voltage crossing on mains, then trigger a 555 timer circuit to turn 
+                on for a short, adjustable period of time. The staccato interrupter design was taken from a similar coil by Gao Guangyan, 
+                which can be found <a href="https://loneoceans.com/labs/sstc3/">here</a>. The coil design was additionally inspired by 
+                a coil by LabCoatz. The Tesla coil driver used is just a standard half-bridge or full-bridge SSTC driver, which has been used 
+                by countless people at this point. 
+                
+            </p>
+
+            <p>
+                Here is the driver circuit.
+            </p>
+
+            <img src="./rsstc_driver_schem.png" class="centered-image"/>
+
+            <p>
+                And here is the interrupter, taken from Gao Guangyan's SSTC 3 as mentioned.
+            </p>
+
+            <img src="./rsstc_interrupt_schem.png" class="centered-image"/>
+
+            <p>
+                The secondary coil was made from 3.5&quot; OD PVC pipe, a 4.5&quot; winding of 36 AWG wire.
+            </p>
+
+            <div class="image-row">
+            <img src="./rsstc_secondary_1.jpg"/>
+            <img src="./rsstc_secondary_2.jpg"/>
+            </div>
+
+            <p>
+                The driver and interrupter were assembled on perfboard, then the half-bridge on blank copper-clad board, and 
+                the bridge was powered for testing using a 60V transformer. After tuning the primary coil a bit, the low power results 
+                looked very nice.
+            </p>
+
+            <div class="image-row">
+            <img src="./rsstc_floor_setup.jpg"/>
+            <img src="./rsstc_floor_test_1_arc_2.png"/>
+            <img src="./rsstc_floor_test_1_arc_1.png"/>
+            </div>
+
+            <p>
+                Next, I made a new topload from... Some random garbage. It came out surprisingly alright.
+            </p>
+
+            <div class="image-row">
+            <img src="./rsstc_topload_1.jpg"/>
+            <img src="./rsstc_topload_2.jpg"/>
+            <img src="./rsstc_new_topload.png"/>
+            </div>
+
+            <p>
+                Then, since the low power testing seemed to show everything working fine, I pushed it up to full power. And immediately,
+                got some 12 inch sword sparks!
+            </p>
+
+            <div class="image-row">
+            <img src="./rsstc_new_topload_arc_1.png"/>
+            <img src="./rsstc_new_topload_arc_2.jpg"/>
+            </div>
+
+            <p>
+                After some tuning and cleaning things up a bit...
+            </p>
+
+            <div class="image-row">
+            <img src="./rsstc_new_topload_arc_3.jpg"/>
+            <img src="./rsstc_new_topload_arc_4.jpg"/>
+            <img src="./rsstc_new_topload_arc_5.jpg"/>
+            <img src="./rsstc_new_topload_arc_6.jpg"/>
+            </div>
+
+            <div class="image-row">
+            <img src="./rsstc_new_topload_arc_7.jpg"/>
+            <img src="./rsstc_new_topload_arc_8.jpg"/>
+            </div>
+
+            <p>
+                At this point I put together a new, more tunable and thicker primary coil, also with somewhat better dimentions. After 
+                finding the right tuning on the new primary coil, here's the results.
+            </p>
+
+            <div class="image-row">
+            <img src="./rsstc_final_1.jpg"/>
+            <img src="./rsstc_final_2.jpg"/>
+            </div>
+
+            <div class="image-row">
+            <img src="./rsstc_final_3.jpg"/>
+            <img src="./rsstc_final_4.jpg"/>
+            <img src="./rsstc_final_5.jpg"/>
+            <img src="./rsstc_final_6.jpg"/>
+            </div>
+
+            <div class="image-row">
+            <img src="./rsstc_final_7.png"/>
+            <img src="./rsstc_final_8.png"/>
+            </div>
+
+            <p>
+                I also did some experiments with running it on a slightly smoothed rectified mains, instead of in pure staccato mode. 
+                I think the results were pretty cool.
+            </p>
+
+            <div class="image-row">
+            <img src="./rsstc_smoothing_1.jpg"/>
+            <img src="./rsstc_smoothing_2.jpg"/>
+            <img src="./rsstc_smoothing_3.jpg"/>
+            <img src="./rsstc_smoothing_4.jpg"/>
+            <img src="./rsstc_smoothing_5.jpg"/>
+            </div>
+
+            <div class="image-row">
+            <img src="./rsstc_smoothing_8.jpg"/>
+            <img src="./rsstc_smoothing_7.PNG"/>
+            </div>
+
+            <div class="image-row">
+            <img src="./rsstc_smoothing_9.jpg"/>
+            <img src="./rsstc_smoothing_10.jpg"/>
+            <img src="./rsstc_smoothing_11.jpg"/>
+            </div>
+
+        </div>
+
+        <section id="spacer"></section>
+        <div class="div-line"></div>
+
+        <div id="PPCE2MHz">
+
+            <h2>[2023] Tiny Driverless Push-Pull Class E SSTC</h2>
+
+            <p>
+                I wanted to try out some continuous-wave (CW) SSTCs, as well as some smaller and simpler stuff after building 
+                my fairly large <a href="../DRSSTC/">DRSSTC 1</a>. The biggest roadblock to running an SSTC in continuously is 
+                that the switching devices will rapidly overheat. The majority of this heat is produced from switching losses, both 
+                from high currents present when switching off, and high voltages present when switching on. The class-E switching 
+                topology reduces turn-off losses using a parallel capacitance to slow the voltage rise time. In some cases at very 
+                high frequencies, the output capacitance of the switching device may be enough that no additional capacitor is 
+                needed. This on its own isn't enough, as the increased capacitance will cause increased losses as it is discharged 
+                turning back on. in order to naturally pull the voltage back down, a tuned RLC circuit (where the R is typically 
+                just the load) is used. If tuning is correct, this forms a critically damped circuit that will reach zero volts
+                with zero dV/dt the moment the switch turns back on, completely eliminating turn-on losses. The result is a highly 
+                efficient switching topology.  
+            </p>
+
+            <p>
+                The circuit designed is similar to the <a href="#24vmini">24V push-pull SSTC</a> described earlier on this page, 
+                except that the ordinary push-pull inverter is replaced with a double-ended class-E, or push-pull class-E inverter. 
+                This functions the same way as an ordinary class-E circuit, but with two of them operating 180 degrees out of phase, 
+                giving twice the output voltage. I also removed all of the interrupter circuitry, as with everything tuned right this 
+                will be able to run continuously. Notice that there are some capacitors placed in parallel with the tank circuit. 
+                These serve the same purpose as the drain-source capacitors, since only one MOSFET will be on at a time. It's just 
+                easier to do it this way for tuning purposes, although there is still smaller capacitors directly connected to the 
+                MOSFETs because the lower inductance means there will be less voltage spiking on the FETs when they turn off. 
+            </p>
+
+            <div class="image-row">
+                <img src="./PPCE2MHz_schem.png"/>
+                <img src="./PPCE2MHz_board.jpg"/>
+            </div>
+
+            <p>
+                For such a simple circuit, the results are quite nice. Even this tiny heatsink was able to keep the MOSFETs cool, 
+                showing the power of class-E!
+            </p>
+            
+            <div class="image-row">
+                <img src="./PPCE2MHz_arcs_1.png"/>
+                <img src="./PPCE2MHz_arcs_2.png"/>
+                <img src="./PPCE2MHz_arcs_3.png"/>
+                <img src="./PPCE2MHz_arcs_4.png"/>
+                <img src="./PPCE2MHz_arcs_5.png"/>
+            </div>
+
+        </div>
+
+
+        <section id="spacer"></section>
+        <div class="div-line"></div>
+
 
         <h2>TO BE CONTINUED...</h2>
 
-        <div class="footer">Page updated 8/29/2026.
+        <div class="footer">Page updated 8/30/2026.
           <a href="/">Back to homepage</a>
         </div>
 
