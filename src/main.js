@@ -41,7 +41,7 @@ document.querySelector('#app').innerHTML = /*html*/`
         <b class="page-list-category">Tesla Coils (Kilohertz range)</b>
         <li><a href="/HV/QCW1/">QCWDRSSTC</a> - Quasi-Continuous Wave solid state tesla coil, achieved 6 foot arcs!</li>
         <li><a href="/HV/DRSSTC/">DRSSTC 1</a> - 2.375" diameter dual-resonant solid state tesla coil, acieved 2 foot arcs.</li>
-        <li><a href="/">Misc. SSTCs</a> - [PAGE INCOMPLETE] Other solid state tesla coil projects.</li>
+        <li><a href="/HV/MiscSSTCs/">Misc. SSTCs</a> - [PAGE WIP] Other solid state tesla coil projects.</li>
 
         <b class="page-list-category">High-Frequency Solid State Tesla Coils (Megahertz range)</b>
         <li><a href src="/">Self-Oscillating HFSSTCs</a> - [PAGE INCOMPLETE] HFSSTCs with the classic "driverless" setup.</li>

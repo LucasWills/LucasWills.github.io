@@ -10,7 +10,8 @@ export default defineConfig({
       input: {
         main: resolve(__dirname, 'index.html'),
         QCW1: resolve(__dirname, 'HV/QCW1/index.html'),
-        DRSSTC: resolve(__dirname, 'HV/DRSSTC/index.html')
+        DRSSTC: resolve(__dirname, 'HV/DRSSTC/index.html'),
+        MiscSSTCs: resolve(__dirname, 'HV/MiscSSTCs/index.html')
       }
     }
 
