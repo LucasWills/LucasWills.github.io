@@ -40,7 +40,7 @@
             <li>[2022] <a href="#rsstc">Ramped Half-Bridge SSTC</a></li>
             <li>[2023] <a href="#PPCE2MHz">Tiny Driverless Push-Pull Class-E SSTC</a></li>
             <li>[2023] <a href="#CE4MHz">4MHz Fixed Frequency Class-E SSTC</a></li>
-            <li>[2023] <a >tbc..</a></li>
+            <li>[2023] <a href="#tinysstc">The Tiny Portable SSTC</a></li>
         </ul>
 
         <section id="spacer"></section>
@@ -385,6 +385,80 @@
                 <img src="./CE4MHz_arcs_4.png"/>
                 <img src="./CE4MHz_arcs_5.png"/>
             </div>
+
+
+        </div>
+
+
+        <section id="spacer"></section>
+        <div class="div-line"></div>
+
+        <div id="tinysstc">
+            <h2>Tiny Portable Push-Pull SSTC (Revision 1)</h2>
+
+            <p>
+                After building a few small tesla coils, I wanted to make one that was truly portable, small enough to fit in a backpack and powered 
+                from a wall adapter. I chose a familiar push-pull design, similar to the one used in my <a href="#24vmini">24V push-pull SSTC</a>
+                which had proven to work well with low input voltages. I modified the interrupter circuit to be more adjustable for a wide range 
+                of spark effects. I also chose different MOSFETs. After looking through various available FETs from Mouser Electronics, I chose 
+                TI's CSD19534KCS, rated for 100V and 100A with an on resistance of 16.5m&Omega;.
+            </p>
+
+
+            <img src="./tinysstc_v1_schem.png" class="centered-image"/>
+
+            <p>
+                The circuit was assembled on copper clad board and perfboard for initail testing, and a small secondary coil was wound and coated. 
+                Tests showed everything working well!
+            </p>
+
+            <div class="image-row">
+                <img src="./tinysstc_proto_1.jpg"/>
+                <img src="./tinysstc_sec_1.jpg"/>
+                <img src="./tinysstc_sec_2.jpg"/>
+                <img src="./tinysstc_sec_3.jpg"/>
+            </div>
+
+            <div class="image-row">
+                <img src="./tinysstc_proto_arcs.png"/>
+            </div>
+
+            <p>
+                With the prototype working well, I decided to make this build a little nicer by designing and ordering a custom PCB for the first 
+                time! Everything seemed to work well.
+            </p>
+
+            <div class="image-row">
+                <img src="./tinysstc_v1_board_1.png"/>
+                <img src="./tinysstc_v1_board_2.jpg"/>
+                <img src="./tinysstc_v1_board_3.jpg"/>
+            </div>
+
+            <div class="image-row">
+                <img src="./tinysstc_v1_assembled_1.jpg"/>
+                <img src="./tinysstc_v1_assembled_2.jpg"/>
+                <img src="./tinysstc_v1_full.jpg"/>
+                <img src="./tinysstc_v1_arcs_1.png"/>
+            </div>
+
+            <p>
+                However, the coil soon started to kill MOSFETs. The circuit contains an LC filter at the secondary feedback node, which when present seems to shift 
+                the operating frequency slightly closer to resonance and increase output. For reasons unknown to me to this day, when this was enabled massive sharp 
+                voltage spikes would occur on the MOSFET gate at the start of each pulse. I discussed this issue with a number of people and we came to the conclusion 
+                that it was either related to the miller capacitance coupling over the voltage spiking on the drain when the MOSFET turns off, or perhaps the LC inductor 
+                was picking up some higher frequency noise from some part of the circuit and coupling it through the gate drive transformer. However, none of the ideas 
+                we tried were able to fix the issue, so ultimately I abandoned the LC filter portion of the circuit. 
+            </p>
+
+            <div class="image-row">
+                <img src="./tinysstc_v1_gate_probing.jpg"/>
+                <img src="./tinysstc_v1_gate_spikes.jpg"/>
+                <img src="./tinysstc_v1_gate_spikes_2.jpg"/>
+            </div>
+
+            <section id="spacer"></section>
+
+            <h2>Tiny SSTC Revision 2</h2>
 
 
         </div>
