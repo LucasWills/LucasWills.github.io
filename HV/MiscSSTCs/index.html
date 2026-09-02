@@ -41,6 +41,7 @@
             <li>[2023] <a href="#PPCE2MHz">Tiny Driverless Push-Pull Class-E SSTC</a></li>
             <li>[2023] <a href="#CE4MHz">4MHz Fixed Frequency Class-E SSTC</a></li>
             <li>[2023] <a href="#tinysstc">The Tiny Portable SSTC</a></li>
+            <li>[2023-2024] <a href="#hbsstc">Portable Medium-Sized Half Bridge SSTC</a></li>
         </ul>
 
         <section id="spacer"></section>
@@ -340,7 +341,7 @@
 
         
         <div id="CE4MHz">
-            <h2>4MHz Fixed Frequency Class-E SSTC</h2>
+            <h2>[2023] 4MHz Fixed Frequency Class-E SSTC</h2>
 
             <p>
                 The Class-E switching topology is very promising for very small Tesla coils as mentioned previously. However, class-E is a 
@@ -394,7 +395,7 @@
         <div class="div-line"></div>
 
         <div id="tinysstc">
-            <h2>Tiny Portable Push-Pull SSTC (Revision 1)</h2>
+            <h2>[2023] Tiny Portable Push-Pull SSTC (Revision 1)</h2>
 
             <p>
                 After building a few small tesla coils, I wanted to make one that was truly portable, small enough to fit in a backpack and powered 
@@ -460,6 +461,41 @@
 
             <h2>Tiny SSTC Revision 2</h2>
 
+            <p>
+                With the decrease in output as a result of abandoning the LC feedback filter led me to start looking at alternative circuits. There is 
+                circuit that is somewhat popular, which is similar to the push-pull circuit used but with an added resonant capacitor, and constant 
+                current input through inductors. This allows for higher primary currents as well as zero-voltage switching, achieving a higher efficiency 
+                and potentially higher output. Crude testing by adding capacitors and inductors to the existing circuit showed promising results, so I 
+                designed and ordered a new PCB. I had some leftover IRFP260MPBF MOSFETs from a separate project, which I chose to use here.
+            </p>
+
+            <img src="./tinysstc_v2_schem.png" class="centered-image"/>
+
+            <div class="image-row">
+                <img src="./tinysstc_v2_board_1.png"/>
+                <img src="./tinysstc_v2_board_2.jpg"/>
+                <img src="./tinysstc_v2_board_3.jpg"/>
+            </div>
+            
+            <p>
+                A little bit of tuning to get close to zero-voltage switching... Actually, if coupling and loading is just right, then class-E switching 
+                can be achieved for even higher efficiency. Unfortuantely this is very sensitive to the loading and the exact resonant frequency of the 
+                circuit, so it is not stable. This is the closest I was able to get consistently.
+            </p>
+
+            <div class="image-row">
+                <img src="./tinysstc_v2_bottom.jpg"/>
+                <img src="./tinysstc_v2_waveforms.jpg"/>
+                <img src="./tinysstc_v2_test_setup.jpg"/>
+            </div>
+
+            <p>
+                Aaand that's basically it! I assembled an appropriate wall adapter and put everything together.
+            </p>
+
+            <img src="./tinysstc_v2_final.jpg" class="centered-image"/>
+            [REMIND LUCAS TO PUT PICTURES OF IT WORKING HERE]
+
 
         </div>
 
@@ -468,9 +504,206 @@
         <div class="div-line"></div>
 
 
-        <h2>TO BE CONTINUED...</h2>
+        <div id="hbsstc">
+            <h2>[2023-2024] Portable Medium-Sized Half Bridge SSTC</h2>
 
-        <div class="footer">Page updated 8/30/2026.
+            <p>
+                After designing the tiny portable SSTC and getting used to designing and ordering my own PCBs, I wanted to try something similar
+                but a bit bigger. I chose to use the classic, proven SSTC circuit which takes secondary coil feedback, cleans it up with a schmitt 
+                trigger, and then feeds it into gate drivers controlling a half-bridge through a gate drive transformer. I added the same on-board 
+                I designed for <a href="#tinysstc">the tiny portable SSTC</a>, and a D flip-flop which would prevent the gate drive being interrupted 
+                half way through a cycle. I wanted to use a higher operating frequency to allow for a somewhat smaller secondary coil and topload, 
+                so I tried something new and used fast SiC cascode FETs (UJ4C075033K3S) instead of the usual IGBTs. These are suited for much higher frequencies than 
+                similarly rated IGBTs, but are unfortunately a lot more expensive and sensitive. I chose the newer UCC27524 gate drivers because of 
+                their faster rise and fall time, and higher voltage capability.
+            </p>
+
+            <img src="./hbsstc_v1_schem.png" class="centered-image"/>
+
+            <p>
+                To make everything easily portable, I wanted to make a small power supply for the driver, and an input filter and voltage doubler for 
+                the half bridge, all of which could go on their own boards mounted above the main board. Wanting to get some practice designing switching 
+                power supplies, I designed a simple ~21W flyback converter for the driver, using the popular TNY290 chip which contains its own switching 
+                MOSFET and a number of protection features. For the input interference filter and voltage doubler, I used a standard filter setup with 
+                a full-bridge rectifier that can be optionally switched to a voltage doubler by adding a jumper.
+            </p>
+
+            <div class="image-row">
+                <img src="./hbsstc_flyback.png"/>
+            </div>
+
+            <img src="./hbsstc_input.png" class="centered-image"/>
+
+            <p>
+                And here are the boards! First, the 21V 1A flyback converter.
+            </p>
+
+            <div class="image-row">
+                <img src="./hbsstc_flyback_board_front.jpg"/>
+                <img src="./hbsstc_flyback_board_back.jpg"/>
+            </div>
+
+            <p>
+                The input filter, voltage doubler and smoothing.
+            </p>
+            <div class="image-row">
+                <img src="./hbsstc_input_board_front.jpg"/>
+                <img src="./hbsstc_input_board_back.jpg"/>
+            </div>
+
+            <p>
+                The main board, with driver and half-bridge.
+            </p>
+            <div class="image-row">
+                <img src="./hbsstc_v1_board_front.jpg"/>
+                <img src="./hbsstc_v1_board_back.jpg"/>
+            </div>
+
+            <p>
+                And a shield for the top of the device.
+            </p>
+            <div class="image-row">
+                <img src="./hbsstc_shield.jpg"/>
+            </div>
+
+            <p>
+                Then the driver was assmebled tested to ensure everything works properly. The SiC gate waveform looks quite nice!
+            </p>
+
+            <div class="image-row">
+                <img src="./hbsstc_v1_board_testing_1.jpg"/>
+                <img src="./hbsstc_v1_board_testing_2.jpg"/>
+                <img src="./hbsstc_v1_board_testing_gate.jpg"/>
+            </div>
+
+            <p>
+                Then, I mounted the main board onto a nice heatsink.
+            </p>
+
+            <img src="./hbsstc_v1_board_mounted.jpg" class="centered-image"/>
+
+            <p>
+                Then the input filter and flyback converter were assembled. The flyback converter proved to work without issues, and easily handled 
+                a continuous 1A load, more than it will ever see from the coil.
+            </p>
+
+            <div class="image-row">
+                <img src="./hbsstc_input_caps.jpg"/>
+                <img src="./hbsstc_input_assembled.jpg"/>
+            </div>
+
+            <div class="image-row">
+                <img src="./hbsstc_flyback_assembled.jpg"/>
+                <img src="./hbsstc_flyback_probing.jpg"/>
+                <img src="./hbsstc_flyback_waveforms.jpg"/>
+            </div>
+
+            <p>
+                Next, a new secondary coil was wound on 2.375&quot; PVC pipe, and coated with polyurethane as usual.
+            </p>
+
+            <div class="image-row">
+                <img src="./hbsstc_sec_1.jpg"/>
+                <img src="./hbsstc_sec_2.jpg"/>
+            </div>
+
+            <p>
+                And while the new secondary coil was drying, I decided to do some tests with an old one. Things looked very promising with 170V
+                on the bus!
+            </p>
+
+            <img src="./hbsstc_test_1_arc.png" class="centered-image"/>
+
+            <p>
+                Unfortunately, I ran into issues with the UCC27524 gate driver chips dying. I found that they would tend to die when 
+                the bridge was tested at higher voltages. I eventually determined that the likely cause was voltage spiking on the chip's power 
+                input as a result of high lead inductance, caused by using a through-hole part in a socket. This would have likely been fine if 
+                I was using an older chip like the UCC27321, because their slower rise time would result in a lower dI/dt and therefore smaller 
+                transient spikes. I decided to try using a somewhat slower chip that would work as a drop-in replacement, the UCC27424. This
+                seemed to fix the problem, so I could finally try the coil with 340V on the bus, and the results were excellent!... Until...
+            </p>
+
+            <div class="image-row">
+                <img src="./hbsstc_test_2_arc_1.png"/>
+                <img src="./hbsstc_test_2_arc_2.png"/>
+                <img src="./hbsstc_test_2_arc_3.png"/>
+                <img src="./hbsstc_test_2_explosion.png"/>
+            </div>
+
+            <p>
+                That's 2 SiC cascode FETs failing explosively, just off camera. I initially wasn't sure what caused this, but later testing showed 
+                that when arcing to a grounded object, which had happened just before the explosion, the circuit would lock onto a much lower 
+                frequency than usual, where it would begin to resonate aggressively producing massive primary currents which would easily destroy 
+                the half bridge. At this point I had also realized that my switching frequency was only going to be about 400kHz, and a fast IGBT 
+                would easily be able to handle that. So, I switched to the much cheaper and, at the lower frequency far superior, FGA40T65SHD. I 
+                also added some common mode filters in the form of ferrite rings on the gate drive transformer to reduce noise coupled through it, 
+                in case that was causing issues. It was when testing with the new IGBTs that I realized the previously mentioned lower frequency 
+                resonating problem.
+            </p>
+
+            <img src="./hbsstc_weird_resonance.png" class="centered-image"/>
+
+            <p>
+                I'm still not exactly sure the cause of this problem, but at this point I had found several problems in the original board and I 
+                new that this new problem could be prevented from destroying IGBTs by simply implementing some overcurrent protection circuitry.
+                So, I decided to go ahead and design a new and improved board. Below is the new schematic and board, notice the added overcurrent 
+                protection, and I also removed some things I found were unnecessary.
+            </p>
+
+            <img src="./hbsstc_v2_schem.png" class="centered-image"/>
+
+            <div class="image-row">
+                <img src="./hbsstc_v2_board_front.jpg"/>
+                <img src="./hbsstc_v2_board_back.jpg"/>
+            </div>
+
+            <p>
+                This time, I made sure not to use IC sockets for the gate drivers. I also stuck with the slower UCC27424, as they were perfectly 
+                sufficient. The new board can be seen on the left below, compared to the old one on the right.
+            </p>
+
+            <img src="./hbsstc_comparison.jpg" class="centered-image"/>
+
+            <p>
+                The gate waveforms, again, look quite nice. Of course, it's important to remember that the waveforms will look somewhat different 
+                when a load is applied due to the miller capacitance. Ideally I would have taken these measurements with an inductive dummy load 
+                attached.
+            </p>
+
+            <div class="image-row">
+                <img src="./hbsstc_v2_board_testing.jpg"/>
+                <img src="./hbsstc_v2_gate_waveforms.jpg"/>
+            </div>
+
+            <p>
+                And, well, the new design pretty much just worked! A series capacitor was added to the primary coil to form an LC circuit, which 
+                would be driven a decent bit above resonance to slightly lower the switching current and slightly raise the primary current while 
+                having more turns on the primary. The secondary and primary coils were added to a 3D-printed mount, and an acrylic tube was added 
+                around the secondary coil for protection, and because I think it looks nice. Everything went together very well, and the output 
+                of the final device was excellent!
+            </p>
+
+            <div class="image-row">
+                <img src="./hbsstc_final_arc_1.png"/>
+                <img src="./hbsstc_final_arc_2.png"/>
+                <img src="./hbsstc_final_arc_3.png"/>
+                <img src="./hbsstc_final_arc_4.png"/>
+                <img src="./hbsstc_final_arc_5.png"/>
+            </div>
+
+            <p>(The image below was taken several years later for the purpose of this website, hence why it's a bit dusty...)</p>
+
+            <img src="./hbsstc_final_box.jpg" class="centered-image"/>
+
+            
+
+        </div>
+
+
+        <section id="spacer"></section>
+        <div class="div-line"></div>
+
+        <div class="footer">Page updated 9/2/2026.
           <a href="/">Back to homepage</a>
         </div>
 
