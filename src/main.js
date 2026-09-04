@@ -15,7 +15,9 @@ document.querySelector('#app').innerHTML = /*html*/`
 
 <!-- top header stuff -->
 
-<h style="text-align: left">Lucas Wills</h>
+<p style="text-align: left">Lucas Wills | LinkedIn: <a href="https://www.linkedin.com/in/lucas-wills/">lucas-wills</a> | Email: <a href="mailto:lucasbwills@gmail.com">lucasbwills@gmail.com</a> | Discord: lucas_ww
+
+</p>
 
 <section id="center">
   <h1>Welcome to my [WORK IN PROGRESS] Hobby Site!</h1>
@@ -103,7 +105,7 @@ document.querySelector('#app').innerHTML = /*html*/`
 
       <ul class="page-list">
         <b class="page-list-category">Inorganic Chemistry</b>
-        <li><a >Sodium Metal</a> - [PAGE INCOMPLETE] Reduction of NaOH with magnesium catalyzed by alcohol.</li>
+        <li><a href="/Chem/Sodium/">Sodium Metal</a> - [PAGE INCOMPLETE] Reduction of NaOH with magnesium catalyzed by alcohol.</li>
         <li><a >Nitric Acid</a> - [PAGE INCOMPLETE] Preparation of nitric acid.</li>
         <li><a >Sodium Nitrite</a> - [PAGE INCOMPLETE] Room temperature preparation of pure NaNO2 with zinc.</li>
         <li><a >Sodium Chlorate</a> - [PAGE INCOMPLETE] A simple chlorate cell using MMO and titanium.</li>
