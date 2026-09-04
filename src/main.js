@@ -48,7 +48,7 @@ document.querySelector('#app').innerHTML = /*html*/`
         <b class="page-list-category">High-Frequency Solid State Tesla Coils (&gt;5 Megahertz)</b>
         <li><a >Self-Oscillating HFSSTCs</a> - [PAGE INCOMPLETE] HFSSTCs with the classic "driverless" setup.</li>
         <li><a >Fixed Frequency HFSSTCs</a> - [PAGE INCOMPLETE] HFSSTCs tuned for fixed frequency drivers.</li>
-        <li><a >Interrupted PLL Driven HFSSTC</a> - [PAGE INCOMPLETE] A very unique PLL driven coil giving short, curly arcs!</li>
+        <li><a href="/HV/IHFSSTC/">Interrupted PLL Driven HFSSTC</a> - [PAGE INCOMPLETE] A very unique PLL driven coil giving short, curly arcs!</li>
 
         <b class="page-list-category">Inductively-Coupled Plasma (ICP)</b>
         <li><a >Plasma Toroid</a> - [PAGE INCOMPLETE] Beautiful rings of inductively coupled plasma in low pressure xenon.</li>

@@ -12,6 +12,7 @@ export default defineConfig({
         QCW1: resolve(__dirname, 'HV/QCW1/index.html'),
         DRSSTC: resolve(__dirname, 'HV/DRSSTC/index.html'),
         MiscSSTCs: resolve(__dirname, 'HV/MiscSSTCs/index.html'),
+        IHFSSTC: resolve(__dirname, 'HV/IHFSSTC/index.html'),
 
 
 
