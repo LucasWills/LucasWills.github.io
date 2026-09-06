@@ -392,3 +392,10 @@ code {
     object-fit: cover;
     border: 2px solid var(--border);
 }
+
+.player_vertical {
+  aspect-ratio: 9 / 16;
+  align-self: center;
+  display: block;
+  margin: 0 auto;
+}
