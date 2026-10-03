@@ -81,7 +81,8 @@ document.querySelector('#app').innerHTML = /*html*/`
 
       <ul class="page-list">
         <b class="page-list-category">Power Electronics and Related</b>
-        <li><a >Big SMPS</a> - [PAGE INCOMPLETE] Adjustable power supply giving 3-80V at up to 1.5kW</li>
+        <li><a href="/Electronics/2KWPSFB/">2kW PSFB Power Supply</a> - Adjustable power supply up to 2kW with active PFC</li>
+        <li><a href="/Electronics/BigSMPS/">Big SMPS</a> - [PAGE INCOMPLETE] Adjustable power supply giving 3-80V at up to 1.5kW</li>
         <li><a >1V Protected Boost Converter</a> - [PAGE INCOMPLETE] A small boost converter to efficiently power a 3.3V microcontroller from a single 1.2V NiMH cell</li>
 
 

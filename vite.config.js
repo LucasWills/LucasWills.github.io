@@ -15,6 +15,12 @@ export default defineConfig({
         IHFSSTC: resolve(__dirname, 'HV/IHFSSTC/index.html'),
 
 
+        PSFB: resolve(__dirname, 'Electronics/2KWPSFB/index.html'),
+
+        BigSMPS: resolve(__dirname, 'Electronics/BigSMPS/index.html'),
+
+
+
 
 
 
