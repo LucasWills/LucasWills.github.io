@@ -194,7 +194,45 @@
           prior to switching.
         </p>
 
+        <p>
+          The Phase-Shifted Full-Bridge (PSFB) topology is similar to a PWM full-bridge converter, except that the PWM is achieved by shifting 
+          the phase of one leg of the bridge forward, creating a period when both legs are switched high or both legs are switched low. This 
+          means we can have a short, constant deadtime, and in this case if we have an inductive load and proper tuning, the voltage on the 
+          switching node will be naturally commutated high before the upper switch turns on, and low before the lower switch turns on. This 
+          means we get zero-voltage turn on, and as a result of this we no longer have to worry about output capacitance. This is actually 
+          very good, because it means we can add additional capacitance in parallel with the switches, slowing down the voltage rise time on 
+          turn-off, allowing us to get pseudo-ZVS turn-off. With ZVS turn-on and pseudo-ZVS turn-off the switching losses are very low.  
+        </p>
+        <p>
+          Disadvantages of the PSFB converter are that we must have 4 switches, there is no way to do a phase-shifted PWM with a half-bridge. 
+          The control is also a bit more complicated than the other topologies, although modern chips can do a pretty good job integrating all 
+          of the control. It is possible to use a gate-drive transformer to simplify control of the switching devices, however because the left
+          and right legs need separate control, 2 separate gate-drive transformers are needed.
+        </p>
 
+        <p>
+          Probably the most popular topology for high-power high-efficiency power supplied is the resonant converter, especially the LLC 
+          resonant converter. This topology does not use PWM control, instead, frequency is modulated closer to the resonant frequency of 
+          the LLC circuit to get higher voltage gain, and further from resonance to get lower voltage gain. By operating exclusively above 
+          the resonant frequency such that the circuit is inductive, and leaving a small deadtime, ZVS turn-on can be achieved similar to 
+          the PSFB, and because of operation near resonance, switching is also much lower than the peak current (this only applies when 
+          under higher load, because at low load the current waveform is not sinusoidal).
+        </p>
+
+        <p>
+          There is unfortunately a major downside to LLC resonant converters, which is that the voltage gain is relatively limited in range. 
+          Larger voltage gains can be achieved at the cost of reduced efficiency.
+        </p>
+
+        <p>
+          To reduce the cooling requirements and size of switching devices required, I wanted to use one of the soft-switching topologies.
+          The LLC converter is desirable because of it's efficiency and relative simplicity compared to the PSFB converter, however 
+          the requirement for a wide output voltage range means that the limited voltage gain of an LLC converter is problematic. 
+          One approach would be to use an LLC converter with a constant output voltage, and then add a buck-converter stage to the 
+          output. This would work fine, but the need for an additional converter stage would lower efficiency and significantly increase 
+          complexity. The PSFB converter on the other hand, is fairly well-suited for a wide output voltage range, as the output voltage 
+          is determined by the effective duty cycle. For this project, I decided that a PSFB converter would be best suited.
+        </p>
 
         <div class="image-row">
           <img src="./img.png"/>
